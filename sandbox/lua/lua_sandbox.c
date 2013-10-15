@@ -230,6 +230,10 @@ int lua_sandbox_init(lua_sandbox* lsb, const char* data_file)
     lua_setglobal(lsb->m_lua, "read_message");
 
     lua_pushlightuserdata(lsb->m_lua, (void*)lsb);
+    lua_pushcclosure(lsb->m_lua, &read_next_field, 1);
+    lua_setglobal(lsb->m_lua, "read_next_field");
+
+    lua_pushlightuserdata(lsb->m_lua, (void*)lsb);
     lua_pushcclosure(lsb->m_lua, &output, 1);
     lua_setglobal(lsb->m_lua, "output");
 

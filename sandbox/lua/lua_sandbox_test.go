@@ -301,6 +301,7 @@ func TestAPIErrors(t *testing.T) {
 		"read_message() negative array index",
 		"output limit exceeded",
 		"read_config() must have a single argument",
+		"read_next_field() takes no arguments",
 	}
 	msgs := []string{
 		"process_message() ./testsupport/errors.lua:11: library 'unknown' is not available",
@@ -316,6 +317,7 @@ func TestAPIErrors(t *testing.T) {
 		"process_message() ./testsupport/errors.lua:34: bad argument #3 to 'read_message' (array index must be >= 0)",
 		"process_message() ./testsupport/errors.lua:37: output_limit exceeded",
 		"process_message() ./testsupport/errors.lua:40: read_config() must have a single argument",
+		"process_message() ./testsupport/errors.lua:42: read_next_field() takes no arguments",
 	}
 
 	var sbc SandboxConfig
@@ -992,6 +994,27 @@ func TestReadNilConfig(t *testing.T) {
 	err = sb.Init("")
 	if err != nil {
 		t.Errorf("%s", err)
+	}
+	sb.Destroy("")
+}
+
+func TestReadNextField(t *testing.T) {
+	var sbc SandboxConfig
+	sbc.ScriptFilename = "./testsupport/read_next_field.lua"
+	sbc.MemoryLimit = 32767
+	sbc.InstructionLimit = 1000
+	msg := getTestMessage()
+	sb, err := lua.CreateLuaSandbox(&sbc)
+	if err != nil {
+		t.Errorf("%s", err)
+	}
+	err = sb.Init("")
+	if err != nil {
+		t.Errorf("%s", err)
+	}
+	r := sb.ProcessMessage(msg)
+	if r != 0 {
+		t.Errorf("ProcessMessage should return 0, received %d %s", r, sb.LastError())
 	}
 	sb.Destroy("")
 }

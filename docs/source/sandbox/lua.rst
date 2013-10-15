@@ -74,6 +74,16 @@ Heka functions that are exposed to the Lua sandbox
     *Return*
         number, string, bool, nil depending on the type of variable requested
 
+**read_next_field()**
+    Iterates through the message fields returning the type, name, value, count 
+    (number of items in the field array), and representation for each field.
+
+    *Arguments*
+        none
+
+    *Return*
+        type, name, value, count, representation
+
 **output(arg0, arg1, ...argN)**
     Appends data to the payload buffer, which cannot exceed the output_limit 
     configuration parameter.

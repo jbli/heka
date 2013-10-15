@@ -366,4 +366,14 @@ int require_library(lua_State* lua);
  */
 int read_config(lua_State* lua);
 
+/** 
+ * Iterates through the message fields returning the type, name, value, count, 
+ * and representation for each field. 
+ * 
+ * @param lua Pointer to the Lua state.
+ * 
+ * @return int Returns five values on the stack.
+ */
+int read_next_field(lua_State* lua);
+
 #endif
